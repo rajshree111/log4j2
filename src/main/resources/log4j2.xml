@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="custom1" monitorInterval="60">
+<!-- <Configuration status="INFO"> -->
+    <Appenders>
+    	 <TestAppender name="ABC">
+       		<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+       </TestAppender> 
+    
+    
+    	<Console name="Console" target="SYSTEM_OUT">
+           <PatternLayout pattern="%d{yyyy-MMM-dd hh:mm:ss a } %level %c - %m %flagg %p [TestId: %flagg] %mdc %MDC %n" /> 
+                 <!--    <Layout type="PatternLayout">
+        				<Pattern>%d %-5p [%c{1}] [TestId: %e] [%t] %m%n</Pattern>
+      				</Layout> -->
+      	</Console>
+            <JDBC name="databaseAppender" tableName="ankita">
+            
+     		<DriverManager connectionString="jdbc:postgresql://127.0.0.1:5432/postgres" 
+        	driverClassName="org.postgresql.Driver"
+        	username="postgres" 
+        	password="rajesh" />
+            
+         	<Column name="timestamp" isEventTimestamp="true" />
+		    <Column name="formatted_messege" pattern="%message" isUnicode="false" />
+		    <Column name="session_id" pattern="%X{session_id}" isUnicode="false" />
+		    <Column name="graphname" pattern="%graphname" isUnicode="false" />
+		    <Column name="level_string" pattern="%p" isUnicode="false" />
+		    <Column name="flagg" pattern="%flagg" isUnicode="false" />
+		    <Column name="error_reason" pattern="%X{error_reason}" isUnicode="false"/>
+      </JDBC>
+    </Appenders>
+    
+    <Loggers>
+    	<Logger name="custom1" level="info" additivity="false">
+         <AppenderRef ref="Console" />
+          <AppenderRef ref="ABC" />  
+         <AppenderRef ref="databaseAppender" />
+      </Logger>
+
+      <Root level="ALL">
+      	<AppenderRef ref="Console" />
+      	 <AppenderRef ref="ABC" /> 
+        <!-- <AppenderRef ref="databaseAppender" />  -->
+      </Root>
+   </Loggers>
+   
+</Configuration>
